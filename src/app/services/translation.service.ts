@@ -71,41 +71,27 @@ export class TranslationService {
    * @returns Observable with translation result
    */
   translate(text: string, fromLang: string = 'auto-detect', toLang: string = 'en'): Observable<TranslationResult> {
-    // For browser environment, we'll use a proxy approach or direct API call
-    // Since bing-translate-api uses Node.js APIs, we need to implement browser-compatible version
+    // Use backend proxy server running on port 49653 to avoid CORS issues
+    const url = 'http://localhost:49653/api/translate';
     
-    const url = 'https://www.bing.com/ttranslatev3';
-    
-    // Prepare request parameters
-    const fromLanguage = fromLang === 'auto-detect' ? null : fromLang;
-    const params = new URLSearchParams();
-    if (fromLanguage) {
-      params.append('fromLang', fromLanguage);
-    }
-    params.append('to', toLang);
-    params.append('text', text);
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
+    const body = {
+      text: text,
+      fromLang: fromLang,
+      toLang: toLang
+    };
 
     return new Observable(observer => {
-      this.http.post<any>(url, params.toString(), { 
-        headers,
-        withCredentials: false 
-      }).subscribe({
+      this.http.post<any>(url, body).subscribe({
         next: (response) => {
-          // Parse Bing's response format
-          if (response && response[0]) {
+          if (response.success && response.data) {
             const result: TranslationResult = {
-              text: text,
+              text: response.data.text,
               userLang: fromLang,
-              translation: response[0].translations[0].text,
-              language: {
-                to: toLang,
-                from: response[0].detectedLanguage?.language || fromLang,
-                score: response[0].detectedLanguage?.score
-              }
+              translation: response.data.translation,
+              language: response.data.language,
+              correctedText: response.data.correctedText,
+              feminineTranslation: response.data.feminineTranslation,
+              masculineTranslation: response.data.masculineTranslation
             };
             observer.next(result);
             observer.complete();

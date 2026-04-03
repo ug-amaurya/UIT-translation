@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "backend": "node examples/backend-translation-api.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -19,6 +20,8 @@
     "@angular/router": "^19.2.0",
     "@primeuix/themes": "^2.0.3",
     "bing-translate-api": "^4.2.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^19.1.4",
