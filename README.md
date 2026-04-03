@@ -1,8 +1,31 @@
-# UitTranslationApp
+# UIT Translation App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.23.
+This is an Angular 19 application with PrimeNG and PrimeFlex integration for building the UIT Translation platform.
 
-## Development server
+## Tech Stack
+
+- **Angular 19** - Latest Angular framework with standalone components
+- **PrimeNG 19** - Comprehensive UI component library
+- **PrimeFlex** - Utility-first CSS framework
+- **PrimeIcons** - Icon library
+- **@primeuix/themes** - Modern theming system (Aura preset)
+
+## Prerequisites
+
+- Node.js 18.x or higher
+- npm 9.x or higher
+
+## Getting Started
+
+### Installation
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+### Development Server
 
 To start a local development server, run:
 
@@ -12,7 +35,46 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+### Building
+
+To build the project for production:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory.
+
+## Project Structure
+
+```
+uit-translation-app/
+├── src/
+│   ├── app/
+│   │   ├── app.component.ts       # Main app component
+│   │   ├── app.component.html     # Main template
+│   │   ├── app.config.ts          # App configuration with PrimeNG setup
+│   │   └── app.routes.ts          # Routing configuration
+│   ├── styles.scss                # Global styles with PrimeIcons & PrimeFlex
+│   └── index.html                 # Main HTML file
+├── angular.json                   # Angular CLI configuration
+├── package.json                   # Dependencies
+└── tsconfig.json                  # TypeScript configuration
+```
+
+## PrimeNG Configuration
+
+The application is configured to use PrimeNG 19 with the Aura theme preset. The configuration is in `src/app/app.config.ts`:
+
+```typescript
+providePrimeNG({
+  theme: {
+    preset: Aura
+  }
+})
+```
+
+## Code Scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
@@ -26,34 +88,17 @@ For a complete list of available schematics (such as `components`, `directives`,
 ng generate --help
 ```
 
-## Building
+## Running Tests
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- [Angular Documentation](https://angular.dev)
+- [PrimeNG Documentation](https://primeng.org)
+- [PrimeFlex Documentation](https://primeflex.org)
+- [Angular CLI Reference](https://angular.dev/tools/cli)
