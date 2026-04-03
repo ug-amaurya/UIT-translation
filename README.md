@@ -141,9 +141,24 @@ this.translationService.translate('Hello', 'en', 'es').subscribe({
 
 2. **Alternative Backend Usage**: The `bing-translate-api` package is designed for Node.js. For full functionality, you can:
    - Set up a backend API endpoint that uses the package
-   - Use the `translateWithBingApi()` method in the service (requires backend setup)
+   - See the `examples/` directory for a complete Node.js/Express backend implementation
+   - Use the backend example as a reference for production deployment
 
 3. **Rate Limits**: Be aware of Bing Translator's rate limits and terms of service.
+
+## Backend Integration Example
+
+For production use, we recommend using a Node.js backend with the bing-translate-api package. A complete example is provided in the `examples/` directory:
+
+```bash
+# Install backend dependencies
+npm install express cors
+
+# Run the backend server
+node examples/backend-translation-api.js
+```
+
+See `examples/README.md` for detailed setup instructions and API documentation.
 
 ## Code Scaffolding
 
