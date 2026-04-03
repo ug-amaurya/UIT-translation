@@ -1,6 +1,6 @@
 # UIT Translation App
 
-This is an Angular 19 application with PrimeNG and PrimeFlex integration for building the UIT Translation platform.
+This is an Angular 19 application with PrimeNG and PrimeFlex integration for building the UIT Translation platform. The app now includes **Bing Translate API** integration for real-time translation capabilities.
 
 ## Tech Stack
 
@@ -9,6 +9,17 @@ This is an Angular 19 application with PrimeNG and PrimeFlex integration for bui
 - **PrimeFlex** - Utility-first CSS framework
 - **PrimeIcons** - Icon library
 - **@primeuix/themes** - Modern theming system (Aura preset)
+- **bing-translate-api** - Translation API package (v4.2.0)
+
+## Features
+
+✨ **Translation Features:**
+- 🌍 Support for 25+ languages
+- 🔍 Automatic language detection
+- 🔄 Swap source and target languages
+- 📋 Copy translation to clipboard
+- ⚡ Real-time translation
+- 📊 Character count indicator (max 5,000 characters)
 
 ## Prerequisites
 
@@ -51,14 +62,23 @@ This will compile your project and store the build artifacts in the `dist/` dire
 uit-translation-app/
 ├── src/
 │   ├── app/
+│   │   ├── components/
+│   │   │   └── translator/          # Translation component
+│   │   │       ├── translator.component.ts
+│   │   │       ├── translator.component.html
+│   │   │       ├── translator.component.scss
+│   │   │       └── translator.component.spec.ts
+│   │   ├── services/
+│   │   │   ├── translation.service.ts    # Bing Translate API service
+│   │   │   └── translation.service.spec.ts
 │   │   ├── app.component.ts       # Main app component
 │   │   ├── app.component.html     # Main template
-│   │   ├── app.config.ts          # App configuration with PrimeNG setup
+│   │   ├── app.config.ts          # App configuration with PrimeNG & HttpClient
 │   │   └── app.routes.ts          # Routing configuration
 │   ├── styles.scss                # Global styles with PrimeIcons & PrimeFlex
 │   └── index.html                 # Main HTML file
 ├── angular.json                   # Angular CLI configuration
-├── package.json                   # Dependencies
+├── package.json                   # Dependencies (includes bing-translate-api)
 └── tsconfig.json                  # TypeScript configuration
 ```
 
@@ -73,6 +93,72 @@ providePrimeNG({
   }
 })
 ```
+
+## Bing Translate API Integration
+
+The application uses the `bing-translate-api` package (v4.2.0) for translation features.
+
+### Translation Service
+
+The `TranslationService` (`src/app/services/translation.service.ts`) provides:
+- Browser-compatible translation using Bing's public API endpoint
+- Support for 25+ languages
+- Automatic language detection
+- Language code to name mapping
+
+### Translator Component
+
+The `TranslatorComponent` (`src/app/components/translator/`) provides a full-featured UI with:
+- Source and target language selection
+- Text input with character limit (5,000 chars)
+- Real-time translation
+- Language swap functionality
+- Copy to clipboard feature
+- Loading states and error handling
+
+### Usage Example
+
+```typescript
+import { TranslationService } from './services/translation.service';
+
+// Inject the service
+constructor(private translationService: TranslationService) {}
+
+// Translate text
+this.translationService.translate('Hello', 'en', 'es').subscribe({
+  next: (result) => {
+    console.log(result.translation); // "Hola"
+  },
+  error: (error) => {
+    console.error('Translation failed:', error);
+  }
+});
+```
+
+### Important Notes
+
+1. **CORS Considerations**: The browser-based implementation may encounter CORS issues in some environments. For production use, consider setting up a backend proxy server.
+
+2. **Alternative Backend Usage**: The `bing-translate-api` package is designed for Node.js. For full functionality, you can:
+   - Set up a backend API endpoint that uses the package
+   - See the `examples/` directory for a complete Node.js/Express backend implementation
+   - Use the backend example as a reference for production deployment
+
+3. **Rate Limits**: Be aware of Bing Translator's rate limits and terms of service.
+
+## Backend Integration Example
+
+For production use, we recommend using a Node.js backend with the bing-translate-api package. A complete example is provided in the `examples/` directory:
+
+```bash
+# Install backend dependencies
+npm install express cors
+
+# Run the backend server
+node examples/backend-translation-api.js
+```
+
+See `examples/README.md` for detailed setup instructions and API documentation.
 
 ## Code Scaffolding
 
