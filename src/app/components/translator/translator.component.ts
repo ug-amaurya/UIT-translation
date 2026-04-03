@@ -6,7 +6,6 @@ import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextarea } from 'primeng/inputtextarea';
 import { ProgressSpinner } from 'primeng/progressspinner';
-import { Message } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
 import { TranslationService, TranslationResult, LanguageOption } from '../../services/translation.service';
 
@@ -21,7 +20,6 @@ import { TranslationService, TranslationResult, LanguageOption } from '../../ser
     DropdownModule,
     InputTextarea,
     ProgressSpinner,
-    Message,
     TooltipModule
   ],
   templateUrl: './translator.component.html',

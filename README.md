@@ -36,15 +36,40 @@ Install dependencies:
 npm install
 ```
 
-### Development Server
+### Running the Application
 
-To start a local development server, run:
+**Important**: This application requires running both a backend server and the Angular frontend.
 
+**Step 1 - Start Backend Server (Port 49653):**
 ```bash
-ng serve
+npm run backend
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+**Step 2 - Start Angular Frontend (in a new terminal):**
+```bash
+npm start
+```
+
+Once both servers are running, open your browser and navigate to `http://localhost:4200/`.
+
+For detailed setup instructions, troubleshooting, and deployment guide, see **[SETUP.md](./SETUP.md)**.
+
+### Quick Start (One Command)
+
+You can also install `npm-run-all` to run both servers simultaneously:
+```bash
+npm install --save-dev npm-run-all
+```
+
+Then add this to your `package.json` scripts:
+```json
+"dev": "npm-run-all --parallel backend start"
+```
+
+And run:
+```bash
+npm run dev
+```
 
 ### Building
 
@@ -150,15 +175,16 @@ this.translationService.translate('Hello', 'en', 'es').subscribe({
 
 For production use, we recommend using a Node.js backend with the bing-translate-api package. A complete example is provided in the `examples/` directory:
 
-```bash
-# Install backend dependencies
-npm install express cors
+**The backend server runs on port 49653 to handle CORS issues:**
 
+```bash
 # Run the backend server
-node examples/backend-translation-api.js
+npm run backend
 ```
 
-See `examples/README.md` for detailed setup instructions and API documentation.
+The backend will be available at `http://localhost:49653`.
+
+See `examples/README.md` and **[SETUP.md](./SETUP.md)** for detailed setup instructions and API documentation.
 
 ## Code Scaffolding
 
