@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { MessageModule } from 'primeng/message';
+import { InputTextarea } from 'primeng/inputtextarea';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { Message } from 'primeng/message';
 import { TranslationService, TranslationResult, LanguageOption } from '../../services/translation.service';
 
 @Component({
@@ -18,9 +18,9 @@ import { TranslationService, TranslationResult, LanguageOption } from '../../ser
     ButtonModule,
     CardModule,
     DropdownModule,
-    InputTextareaModule,
-    ProgressSpinnerModule,
-    MessageModule
+    InputTextarea,
+    ProgressSpinner,
+    Message
   ],
   templateUrl: './translator.component.html',
   styleUrls: ['./translator.component.scss']

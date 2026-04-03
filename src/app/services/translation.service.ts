@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export interface TranslationResult {
   text: string;
@@ -60,6 +60,10 @@ export class TranslationService {
   /**
    * Translates text using Bing Translator API
    * This method uses the browser-compatible approach to call Bing's translation endpoint
+   * 
+   * Note: The bing-translate-api package is installed in the project but can only be used
+   * in a Node.js backend environment. This service provides a browser-compatible wrapper
+   * that uses the same underlying Bing translation service.
    * 
    * @param text - The text to translate
    * @param fromLang - Source language code (use 'auto-detect' for automatic detection)
@@ -124,27 +128,5 @@ export class TranslationService {
   getLanguageName(code: string): string {
     const lang = this.supportedLanguages.find(l => l.code === code);
     return lang ? lang.name : code;
-  }
-
-  /**
-   * Alternative method using bing-translate-api package
-   * Note: This requires a Node.js backend or proxy server since the package uses Node.js APIs
-   * 
-   * @param text - Text to translate
-   * @param fromLang - Source language
-   * @param toLang - Target language  
-   * @returns Promise with translation result
-   */
-  async translateWithBingApi(text: string, fromLang: string = 'auto-detect', toLang: string = 'en'): Promise<TranslationResult> {
-    // This would be used if you set up a backend API endpoint
-    // For now, it's a placeholder for future implementation
-    try {
-      // Import dynamically to avoid errors in browser
-      const translate = await import('bing-translate-api').then(m => m.translate);
-      const result = await translate(text, fromLang === 'auto-detect' ? null : fromLang, toLang);
-      return result as TranslationResult;
-    } catch (error) {
-      throw new Error('bing-translate-api requires Node.js environment. Please use the translate() method instead or set up a backend proxy.');
-    }
   }
 }

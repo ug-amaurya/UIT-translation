@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TranslatorComponent } from './translator.component';
 
 describe('TranslatorComponent', () => {
@@ -8,7 +9,11 @@ describe('TranslatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslatorComponent, HttpClientTestingModule]
+      imports: [TranslatorComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
     .compileComponents();
 
