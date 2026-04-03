@@ -21,7 +21,7 @@ const cors = require('cors');
 const { translate } = require('bing-translate-api');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 49653;
 
 // Middleware
 app.use(cors()); // Enable CORS for all origins (configure appropriately for production)
