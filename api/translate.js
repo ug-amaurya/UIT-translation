@@ -1,4 +1,4 @@
-const translate = require("bing-translate-api");
+import translate from "bing-translate-api";
 
 // =============================================
 // PRODUCTION CONFIGURATION & MONITORING

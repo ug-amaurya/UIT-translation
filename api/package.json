@@ -1,6 +1,7 @@
 {
     "name": "translation-api",
     "version": "1.0.0",
+    "type": "module",
     "description": "Serverless translation API using bing-translate-api",
     "main": "translate.js",
     "scripts": {
