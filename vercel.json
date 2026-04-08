@@ -1,7 +1,7 @@
 {
     "version": 2,
     "buildCommand": "cd frontend && npm install && npm run build",
-    "outputDirectory": "frontend/dist/frontend",
+    "outputDirectory": "frontend/dist/frontend/browser",
     "routes": [
         {
             "src": "/api/translate",
@@ -37,7 +37,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/frontend/dist/frontend/index.html"
+            "dest": "/index.html"
         }
     ],
     "env": {
