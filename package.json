@@ -1,0 +1,46 @@
+{
+  "name": "translation-app",
+  "version": "1.0.0",
+  "description": "Angular + Express Serverless Translation App",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "build:api": "echo 'API build complete - serverless functions ready'",
+    "build:all": "npm run build && npm run build:api",
+    "dev": "vercel dev",
+    "dev:frontend": "cd frontend && npm start",
+    "dev:full": "concurrently \"npm run dev:frontend\" \"npm run dev:api\"",
+    "dev:api": "node dev-server.js",
+    "start": "cd frontend && npm start",
+    "start:prod": "vercel dev --prod",
+    "test:api": "curl -X GET http://localhost:3000/api/health",
+    "test:translation": "curl -X POST http://localhost:3000/api/translate -H 'Content-Type: application/json' -d '{\"text\":\"Hello world\",\"targetLanguage\":\"es\"}'",
+    "vercel:dev": "vercel dev",
+    "vercel:deploy": "vercel --prod",
+    "vercel:preview": "vercel",
+    "deploy:check": "npm run build:all && npm run test:api",
+    "install:all": "npm install && cd frontend && npm install && cd ../api && npm install",
+    "health:check": "curl -s http://localhost:3000/api/health | jq .",
+    "lint": "cd frontend && npm run lint",
+    "clean": "rm -rf frontend/dist node_modules/.vercel .vercel"
+  },
+  "keywords": [
+    "translation",
+    "angular",
+    "serverless",
+    "vercel"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.6",
+    "express": "^4.22.1",
+    "vercel": "^37.14.0"
+  },
+  "dependencies": {
+    "bing-translate-api": "^4.2.0"
+  }
+}

@@ -1,0 +1,70 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/translate.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "api/health.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "buildCommand": "cd frontend && npm run build",
+                "outputDirectory": "frontend/dist/frontend"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/translate",
+            "dest": "/api/translate",
+            "methods": [
+                "POST",
+                "OPTIONS"
+            ],
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "DENY"
+            }
+        },
+        {
+            "src": "/api/health",
+            "dest": "/api/health",
+            "methods": [
+                "GET",
+                "OPTIONS"
+            ],
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Cache-Control": "no-cache"
+            }
+        },
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/frontend/dist/frontend/index.html"
+        }
+    ],
+    "env": {
+        "NODE_ENV": "production"
+    },
+    "functions": {
+        "api/translate.js": {
+            "maxDuration": 30
+        },
+        "api/health.js": {
+            "maxDuration": 5
+        }
+    }
+}

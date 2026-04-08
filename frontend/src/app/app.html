@@ -1,0 +1,155 @@
+<div class="translation-app">
+  <!-- Header -->
+  <header class="app-header">
+    <h1>{{ title() }}</h1>
+    <p>Transform Webform objects into multiple languages with precision</p>
+  </header>
+
+  <!-- Translation Form -->
+  <main class="app-main">
+    <div class="translation-controls">
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <label for="language">Target Language:</label>
+        <div class="custom-dropdown" (click)="toggleLanguageDropdown()">
+          <div class="dropdown-trigger">
+            <span class="selected-language">{{ selectedLanguageName }}</span>
+            <span class="dropdown-arrow" [class.open]="isLanguageDropdownOpen()">▼</span>
+          </div>
+          
+          @if (isLanguageDropdownOpen()) {
+            <div class="dropdown-menu" (click)="$event.stopPropagation()">
+              <div class="search-container">
+                <input
+                  type="text"
+                  [(ngModel)]="languageSearchQuery"
+                  placeholder="Search languages..."
+                  class="language-search-input"
+                  (click)="$event.stopPropagation()"
+                />
+                <span class="search-icon">🔍</span>
+              </div>
+              
+              <div class="language-options">
+                @for (lang of filteredLanguages; track lang.code) {
+                  <div 
+                    class="language-option"
+                    [class.selected]="lang.code === selectedLanguage()"
+                    (click)="selectLanguage(lang.code)"
+                  >
+                    <span class="lang-name">{{ lang.name }}</span>
+                    <span class="lang-code">{{ lang.code.toUpperCase() }}</span>
+                  </div>
+                }
+                
+                @if (filteredLanguages.length === 0) {
+                  <div class="no-results">No languages found</div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+        
+        <!-- Backdrop to close dropdown when clicking outside -->
+        @if (isLanguageDropdownOpen()) {
+          <div class="dropdown-backdrop" (click)="closeLanguageDropdown()"></div>
+        }
+      </div>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <div class="input-header">
+        <h3>📝 Input Webform JSON</h3>
+        <div class="sample-buttons">
+          <button type="button" class="sample-btn server-test" (click)="testServerTranslation()">
+            🧪 Test Server Translation
+          </button>
+        </div>
+      </div>
+
+      <textarea
+        [(ngModel)]="inputText"
+        placeholder="Enter Webform JSON object to translate..."
+        rows="12"
+        class="input-textarea"
+      ></textarea>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button
+        type="button"
+        class="translate-btn"
+        (click)="onTranslate()"
+        [disabled]="isLoading() || !inputText().trim()"
+      >
+        @if (isLoading()) {
+          <div class="loader"></div>
+          <span>Translating...</span>
+        } @else {
+          <span class="translate-icon">🌍</span>
+          <span>Translate JSON</span>
+        }
+      </button>
+
+      <button
+        type="button"
+        class="clear-btn"
+        (click)="clearAll()"
+        [disabled]="isLoading() || (!inputText() && !translatedResult())"
+      >
+        <span>🗑️</span>
+        <span>Clear All</span>
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    @if (errorMessage()) {
+      <div class="error-message">⚠️ {{ errorMessage() }}</div>
+    }
+
+    <!-- Results Section -->
+    @if (translatedResult()) {
+      <div class="results-section">
+        <div class="results-header">
+          <h3>🎯 Translated JSON</h3>
+          <div class="results-controls">
+            <div class="search-container">
+              <input
+                type="text"
+                [(ngModel)]="searchQuery"
+                placeholder="Search in results..."
+                class="search-input"
+              />
+              <span class="search-icon">🔍</span>
+            </div>
+            <button
+              type="button"
+              class="copy-btn"
+              (click)="copyResult()"
+              [class.success]="copySuccess()"
+            >
+              @if (copySuccess()) {
+                <span>✓ Copied!</span>
+              } @else {
+                <span>📋 Copy</span>
+              }
+            </button>
+          </div>
+        </div>
+
+        <div class="results-content">
+          <pre class="json-result" [innerHTML]="filteredResult"></pre>
+        </div>
+      </div>
+    }
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>⚡ Powered by Bing Translate API • Built with Angular • v1.0</p>
+  </footer>
+</div>
+
+<router-outlet />

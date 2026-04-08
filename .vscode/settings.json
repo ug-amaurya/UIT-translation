@@ -1,0 +1,13 @@
+{
+  "chat.tools.terminal.autoApprove": {
+    "/^npx -p @angular/cli ng new frontend --routing --style=css --package-manager=npm --ssr=false$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^cd /Users/anurag\\.maurya/Developer/learnings/Trans/frontend && npm run build$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  },
+  "git.ignoreLimitWarning": true
+}
