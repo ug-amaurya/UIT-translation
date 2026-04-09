@@ -18,8 +18,8 @@ const config = {
     maxPayloadSize: parseInt(process.env.API_MAX_PAYLOAD_SIZE || "10485760"), // 10MB
   },
   logging: {
-    enabled: process.env.ENABLE_LOGGING === "true",
-    level: process.env.LOG_LEVEL || "error",
+    enabled: true, // Always enable logging to debug translation issues
+    level: "info",
   },
 };
 
@@ -149,6 +149,9 @@ export default async function handler(req, res) {
 
   // Increment total request counter
   requestMetrics.total++;
+
+  // Clear translation errors from previous requests
+  translationErrors.length = 0;
 
   try {
     // =============================================
@@ -338,8 +341,13 @@ export default async function handler(req, res) {
         inputType: isObjectTranslation ? "object" : "text",
         inputSize: payloadSize,
         cacheSize: translationCache.size,
+        translationErrors:
+          translationErrors.length > 0 ? translationErrors : undefined,
       },
     };
+
+    // Clear errors for next request
+    translationErrors.length = 0;
 
     // Store in cache
     translationCache.set(cacheKey, responseData);
@@ -421,6 +429,9 @@ export default async function handler(req, res) {
 // DEEP OBJECT TRANSLATION UTILITY
 // =============================================
 
+// Track translation errors for debugging
+const translationErrors = [];
+
 async function translateObjectDeep(obj, targetLanguage, path = "") {
   if (obj === null || obj === undefined) {
     return obj;
@@ -432,6 +443,9 @@ async function translateObjectDeep(obj, targetLanguage, path = "") {
         const result = await translate(obj, null, targetLanguage);
         return result.translation;
       } catch (error) {
+        const errorMsg = `[${path}] ${error.message || error}`;
+        translationErrors.push(errorMsg);
+        console.error("Translation error:", errorMsg);
         logError(error, { field: path, value: obj });
         return obj; // Return original on translation error
       }
